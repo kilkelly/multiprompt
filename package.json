@@ -1,0 +1,52 @@
+{
+	"name": "multiprompt",
+	"version": "1.0.0",
+	"description": "Send a prompt to multiple LLMs / text models / image models simultaneously",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kilkelly/multiprompt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kilkelly/multiprompt/issues"
+  },
+  "keywords": [
+    "nano",
+    "nanocurrency",
+    "ai",
+    "chatgpt",
+    "gpt",
+    "claude",
+    "gemini",
+    "llama",
+    "dall-e",
+    "flux",
+    "stablediffusion",
+    "LLM",
+    "nanogpt"
+  ],
+  "author": "Frank Kilkelly",
+	"scripts": {
+		"dev": "vite dev",
+		"postinstall": "npm run build",
+		"build": "vite build",
+		"preview": "vite preview",
+		"multiprompt": "vite preview"
+	},
+	"type": "module",
+	"devDependencies": {
+		"@sveltejs/adapter-node": "5.0.1",
+		"@sveltejs/kit": "2.5.28",
+		"@sveltejs/vite-plugin-svelte": "3.0.0",
+		"svelte": "4.2.19",
+		"vite": "5.4.8"
+	},
+	"dependencies": {
+		"dexie": "4.0.8",
+		"github-slugger": "2.0.0",
+		"markdown-it": "14.1.0",
+		"nanogptjs": "1.0.1"
+	}
+}

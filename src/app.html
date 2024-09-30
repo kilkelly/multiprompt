@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+		<style>
+			body {
+				margin: 0;
+				background-color: #191f25;
+				color: #CCC;
+			}
+			body, button.link {
+				font-family: "Nunito", "Helvetica Neue", Helvetica, Arial, sans-serif;		
+			}			
+			button, input {
+				border-radius: 5px;
+				padding: 10px;
+				font-size: 1rem;
+			}
+			a, a:visited, a:hover, .link {
+				color: #47baff;
+			}
+			.link {
+				cursor: pointer;
+			}
+			button.link {
+				background: none;
+				border: 0;
+				padding: 0;
+				text-align: left;
+				cursor: pointer;
+			}			
+			.underline {
+				text-decoration: underline;
+			}
+			.help {
+				cursor: help;
+				border-bottom: 1px dashed;
+			}	
+			.caution {
+        color:pink;
+    	}								
+		</style>
+	</head>	
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
