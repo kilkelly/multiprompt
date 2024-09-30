@@ -44,4 +44,6 @@ Opens MultiPrompt in your web browser.
 
 You will be asked to enter your [NanoGPT API key](https://nano-gpt.com/api) before using MultiPrompt. This API key can be cleared at any time by using the 'Clear API key' link at the bottom of the page.
 
+## Disclaimer
 
+As always when working with real world value, in this case Nano, be careful when using this tool. The authors and contributors shall not be held liable for any use of this tool's functionality, intentional or unintentional, that leads to an undesired lose of funds.
