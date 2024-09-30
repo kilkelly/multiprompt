@@ -436,11 +436,8 @@
 {/if}
 <footer>
     <p>
-        Powered by <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a>, <a href="https://nano.org/" target="_blank" rel="noopener">Nano</a> and <a href="https://github.com/kilkelly/nanogptjs" target="_blank" rel="noopener">NanoGPTJS</a>
+        Source code on <a href="https://github.com/kilkelly/multiprompt" target="_blank" rel="noopener">GitHub</a>. Powered by <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a>, <a href="https://nano.org/" target="_blank" rel="noopener">Nano</a> and <a href="https://github.com/kilkelly/nanogptjs" target="_blank" rel="noopener">NanoGPTJS</a>.
     </p>
-    <p>
-        Developed by <a href="https://nanocharts.info/" target="_blank" rel="noopener">NanoCharts</a>
-    </p>    
 </footer>
 
 <style>
