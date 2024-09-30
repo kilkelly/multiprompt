@@ -46,4 +46,4 @@ You will be asked to enter your [NanoGPT API key](https://nano-gpt.com/api) befo
 
 ## Disclaimer
 
-As always when working with real world value, in this case Nano, be careful when using this tool. The authors and contributors shall not be held liable for any use of this tool's functionality, intentional or unintentional, that leads to an undesired lose of funds.
+As always when working with real world value, in this case Nano, be careful when using this tool. The authors and contributors shall not be held liable for any use of this tool's functionality, intentional or unintentional, that leads to an undesired loss of funds.
