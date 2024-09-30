@@ -414,7 +414,7 @@
 <section id="about">
     <details>
         <summary>What is MultiPrompt?</summary>
-        <p>MultiPrompt allows you to send a single prompt to multiple LLMs / text models / image models at the same time to evaluate how each compare.</p>
+        <p>MultiPrompt allows you to send a prompt to multiple LLMs / text models / image models simultaneously.</p>
     </details>    
     <details>
         <summary>How do I use it?</summary>
