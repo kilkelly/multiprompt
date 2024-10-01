@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
+    import { browser } from '$app/environment'
     import markdownit from 'markdown-it'
     import GithubSlugger from 'github-slugger'
     import { db } from "$lib/db"
@@ -258,6 +259,18 @@
         }        
     }
 
+    // -----
+
+    if (browser) {
+        window.onbeforeunload = function() {
+            if (chatInProgress) {
+                return ""
+            }
+        }
+    }
+
+    // -----
+
     onMount(_ => {     
         init()
     })
@@ -269,7 +282,7 @@
         <div id="balance">
             Current Nano balance: <strong>Ӿ{nanoBalance}</strong>&nbsp;&nbsp; 
             <a href="https://nano-gpt.com/wallet" target="_blank" rel="noopener">Top-up balance</a> |            
-            <button id="show-history" class="link underline" on:click={_ => {if (showHistory) {showHistory = false} else {showHistory_()}}}>{showHistory ? 'Close' : 'Show'} prompt history</button>            
+            <button id="show-history" class="link underline" on:click={_ => {if (showHistory) {showHistory = false} else {showHistory_()}}} disabled={chatInProgress}>{showHistory ? 'Close' : 'Show'} prompt history</button>            
         </div>
     </header>
 {/if}
@@ -277,21 +290,24 @@
 {#if !$storeAPIKey}
     <main id="splash-screen">
         <h1>MultiPrompt</h1>
+        <form on:submit={_ => saveAPIKey()}>
+            <!-- svelte-ignore a11y-autofocus -->
+            <input
+                id="api-key"
+                type="text"
+                bind:value={apiKey}
+                placeholder="NanoGPT API key"    
+                autocomplete="off"    
+                autofocus             
+            />
+            <button type="submit">Save</button>
+        </form>            
         <div>
-            <form on:submit={_ => saveAPIKey()}>
-                <!-- svelte-ignore a11y-autofocus -->
-                <input
-                    id="api-key"
-                    type="text"
-                    bind:value={apiKey}
-                    placeholder="Enter your NanoGPT API key"    
-                    autocomplete="off"    
-                    autofocus             
-                />
-                <button type="submit">Save</button>
-            </form>
+            {#if apiKeyError}
+                <div class="error-message">{apiKeyError}</div>
+            {/if}
+            <div><a href="https://nano-gpt.com/api" target="_blank" rel="noopener">Don't have a NanoGPT API key?</a></div>        
         </div>
-        <div class="error-message">{apiKeyError}</div>
     </main>
 {:else if showHistory}
     <main id="history">
@@ -590,6 +606,16 @@
         margin: 5rem 0;
     }
 
+    #splash-screen form {
+        padding: 0.5rem;
+    }
+
+    #splash-screen > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }    
+
     summary {
         font-size: 1.3rem;
         margin-top: 0.5rem;
@@ -632,5 +658,12 @@
         align-items: center;
         padding: 1rem 0;        
     }
+
+    @media only screen and (max-width:500px) {
+        #splash-screen input {
+            width: 200px;
+        }            
+    }
+
 
 </style>
