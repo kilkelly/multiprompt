@@ -1,6 +1,6 @@
 {
 	"name": "multiprompt",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Send a prompt to multiple LLMs / text models / image models simultaneously",
   "engines": {
     "node": ">=18"

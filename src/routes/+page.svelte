@@ -10,7 +10,8 @@
     import {
         MODEL_TYPE_TEXT,
         MODEL_TYPE_IMAGE,
-        DELIMITER
+        DELIMITER,
+        VERSION
     } from '$lib/common'
     import {
         storeModelType,
@@ -281,7 +282,7 @@
     <header>
         <div id="balance">
             Current Nano balance: <strong>Ӿ{nanoBalance}</strong>&nbsp;&nbsp; 
-            <a href="https://nano-gpt.com/wallet" target="_blank" rel="noopener">Top-up balance</a> |            
+            <a href="https://nano-gpt.com/balance" target="_blank" rel="noopener">Top-up balance</a> |            
             <button id="show-history" class="link underline" on:click={_ => {if (showHistory) {showHistory = false} else {showHistory_()}}} disabled={chatInProgress}>{showHistory ? 'Close' : 'Show'} prompt history</button>            
         </div>
     </header>
@@ -434,7 +435,7 @@
     </details>    
     <details>
         <summary>How do I use it?</summary>
-        <p>You will need an <a href="https://nano-gpt.com/api" target="_blank" rel="noopener">API key</a> for NanoGPT, a service that enables pay-per-prompt usage of different text and image models. You will need to enter this API key before using MultiPrompt. You will also need to top-up your <a href="https://nano-gpt.com/wallet" target="_blank" rel="noopener">NanoGPT wallet</a> using any of their available payment options.</p>
+        <p>You will need an <a href="https://nano-gpt.com/api" target="_blank" rel="noopener">API key</a> for NanoGPT, a service that enables pay-per-prompt usage of different text and image models. You will need to enter this API key before using MultiPrompt. You will also need to top-up your <a href="https://nano-gpt.com/balance" target="_blank" rel="noopener">NanoGPT wallet</a> using any of their available payment options.</p>
     </details>    
     <details>
         <summary>How does it work?</summary>
@@ -452,7 +453,7 @@
 {/if}
 <footer>
     <p>
-        Source code on <a href="https://github.com/kilkelly/multiprompt" target="_blank" rel="noopener">GitHub</a>. Powered by <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a>, <a href="https://nano.org/" target="_blank" rel="noopener">Nano</a> and <a href="https://github.com/kilkelly/nanogptjs" target="_blank" rel="noopener">NanoGPTJS</a>.
+        Version <span id="version">{VERSION}</span> | <a href="https://github.com/kilkelly/multiprompt" target="_blank" rel="noopener">GitHub</a> | Powered by <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a>, <a href="https://nano.org/" target="_blank" rel="noopener">Nano</a> and <a href="https://github.com/kilkelly/nanogptjs" target="_blank" rel="noopener">NanoGPTJS</a>.
     </p>
 </footer>
 
@@ -658,6 +659,10 @@
         align-items: center;
         padding: 1rem 0;        
     }
+
+    #version {
+        font-weight: bold;
+    }    
 
     @media only screen and (max-width:500px) {
         #splash-screen input {
