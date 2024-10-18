@@ -37,14 +37,16 @@ export async function POST({ request }) {
                     if (Math.floor(Math.random() * 10) === 5) {
                         throw new Error('random fail test')
                     }
-                    var { base64 , metadata: { nanoCost } } = { base64: EXAMPLE_BASE64, metadata: { nanoCost: 0.0001 } }    
+                    var { base64 , metadata: { cost: nanoCost } } = { base64: EXAMPLE_BASE64, metadata: { cost: 0.0001 } }    
                 } else {
-                    var { base64 , metadata: { nanoCost } } = await nanogpt.image({
+                    let response = await nanogpt.image({
                         prompt,
                         model: model.split(DELIMITER)[0],
                         width,
                         height
-                    })                
+                    })
+
+                    var { base64 , metadata: { cost: nanoCost } } = response                
                 }
             } catch(e) {
                 error = e.message
@@ -58,12 +60,14 @@ export async function POST({ request }) {
                     if (Math.floor(Math.random() * 10) === 5) {
                         throw new Error('random fail test')
                     }                    
-                   var { reply , metadata: { nanoCost } } = { reply: 'hello' + Math.random(), metadata: { nanoCost: 0.0001 } }    
+                   var { reply , metadata: { cost: nanoCost } } = { reply: 'hello' + Math.random(), metadata: { cost: 0.0001 } }    
                 } else {
-                    var { reply , metadata: { nanoCost } } = await nanogpt.chat({
+                    let response = await nanogpt.chat({
                         prompt,
                         model: model.split(DELIMITER)[0]
-                    })
+                    })                    
+
+                    var { reply , metadata: { cost: nanoCost } } = response
                 }
             } catch(e) {
                 error = e.message
