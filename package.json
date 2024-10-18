@@ -33,7 +33,7 @@
 		"postinstall": "npm run build",
 		"build": "vite build",
 		"preview": "vite preview",
-		"multiprompt": "vite preview"
+		"multiprompt": "vite dev"
 	},
 	"type": "module",
 	"devDependencies": {
