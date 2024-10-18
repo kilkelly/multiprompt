@@ -20,7 +20,7 @@ It runs locally on your machine so your prompts and responses will only ever be 
 
 You will need to have [Node.js](https://nodejs.org/) installed on your machine.
 
-Also you will need an [API key](https://nano-gpt.com/api) for NanoGPT, a service that enables pay-per-prompt usage of different text and image models. You will also need to top-up your [NanoGPT wallet](https://nano-gpt.com/wallet) with any of the available payment options.
+Also you will need an [API key](https://nano-gpt.com/api) for NanoGPT, a service that enables pay-per-prompt usage of different text and image models. You will also need to top-up your [NanoGPT wallet](https://nano-gpt.com/balance) with any of the available payment options.
 
 ## Installing
 
