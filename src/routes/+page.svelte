@@ -2,6 +2,7 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { browser } from '$app/environment'
+    import nanogptjs from 'nanogptjs'
     import markdownit from 'markdown-it'
     import GithubSlugger from 'github-slugger'
     import { db } from "$lib/db"
@@ -16,10 +17,13 @@
     import {
         storeModelType,
         storeNumberOfModels,
-        storeAPIKey
+        storeAPIKey,
+        storeTermsAgree
     } from '$lib/stores'    
 
     // -----
+
+    let nanogpt = {}
 
     const DEFAULT_REPLY_TEXT = 'Chat reply will appear here'
     const MODEL_REPLIES_DEFAULT =  {
@@ -61,9 +65,7 @@
     // -----
 
     async function models () {
-        let res = await fetch('https://nano-gpt.com/api/models')
-
-        let models = (await res.json())
+        let models = await nanogpt.models()
 
         textModels = Object.values(models.models.text).sort(function (x, y) {
             if (x.name < y.name) { return -1 }
@@ -104,17 +106,12 @@
     // -----
 
     async function balance () {
-        let res = await fetch('/balance', {
-            method: 'post',
-            body: JSON.stringify({ apiKey: $storeAPIKey })
-        })
-        nanoBalance = (await res.text())
+        nanoBalance = await nanogpt.balance()
     }
     
     // -----
 
-    async function chat () {
-        
+    async function chat () {        
         chatInProgress = true
 
         modelReplies = modelReplies.map(modelReply => {
@@ -131,18 +128,66 @@
             modelsToSend[i] = modelReply.model
         })
 
-        let res = await fetch('/', {
-            method: 'post',
-            body: JSON.stringify({
-                apiKey: $storeAPIKey,
-                prompt,
-                models: modelsToSend,
-                modelType: $storeModelType
-            })
-        })
+        // -----
+
+        let replies = await Promise.all(modelsToSend.map(async function (model) {
+            let error = false
+
+            if (!model) {
+                return {
+                    reply: '',
+                    nanoCost: 0
+                }
+            }
+
+            // if image generation request
+            if ($storeModelType === MODEL_TYPE_IMAGE) {
+
+                let width = Number(model.split(DELIMITER)[2].split('x')[0])
+                let height = Number(model.split(DELIMITER)[2].split('x')[1])
+
+                try{
+                    let response = await nanogpt.image({
+                        prompt,
+                        model: model.split(DELIMITER)[0],
+                        width,
+                        height
+                    })
+
+                    var { base64 , metadata: { cost: nanoCost } } = response                
+                } catch(e) {
+                    error = e.message
+                }
+
+                reply = base64
+            } else { // chat request
+                try{
+                    let response = await nanogpt.chat({
+                        prompt,
+                        model: model.split(DELIMITER)[0]
+                    })                    
+
+                    var { reply , metadata: { cost: nanoCost } } = response
+                } catch(e) {
+                    error = e.message
+                }                
+            }
+
+            return Object.assign(
+                {
+                    reply,
+                    nanoCost,
+                    model,
+                    error
+                },
+                { modelSnapshot: model }
+            )
+        }))
+
+
+        // -----    
 
         try {
-            let { replies } = (await res.json())
 
             replies.forEach(({reply, nanoCost, modelSnapshot, error}, i) => {
                 modelReplies[i] = Object.assign(modelReplies[i], {reply, nanoCost, modelSnapshot, error})
@@ -229,6 +274,7 @@
         apiKey=''
         apiKeyError=''
         prompt=''
+        nanoBalance = 0
         initiateModelReplies()
     }    
 
@@ -253,6 +299,7 @@
 
     async function init() {
         if ($storeAPIKey) {
+            nanogpt = nanogptjs({ apiKey: $storeAPIKey })
             balance()
             models()
             showHistory = false
@@ -442,8 +489,8 @@
         <p>This tool forwards your prompts to the NanoGPT service and gathers the results for display in a side-by-side format.</p>
     </details>    
     <details>
-        <summary>What about privacy</summary>
-        <p>As this tool is running locally on your machine, your prompts and responses will only ever be seen by your web browser and the NanoGPT service. This is the same as if you used <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a> directly.</p>        
+        <summary>What about privacy?</summary>
+        <p>As this tool is running entirely in your web browser, your prompts and responses will only ever be seen by your web browser and the NanoGPT service. This is the same as if you used <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a> directly. All prompt responses are saved locally in your web browser, never on our servers.</p>        
     </details>    
 </section>
 {#if ($storeAPIKey)}
@@ -456,6 +503,20 @@
         Version <span id="version">{VERSION}</span> | <a href="https://github.com/kilkelly/multiprompt" target="_blank" rel="noopener">GitHub</a> | Powered by <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a>, <a href="https://nano.org/" target="_blank" rel="noopener">Nano</a> and <a href="https://github.com/kilkelly/nanogptjs" target="_blank" rel="noopener">NanoGPTJS</a>.
     </p>
 </footer>
+
+
+{#if !$storeTermsAgree}
+    <div id="overlay">
+        <div id="modal-terms-agree" class="modal" >
+            <h2>Before using MultiPrompt</h2>
+            <p>MultiPrompt is a tool which allows you to send a prompt to multiple LLMs / text models / image models simultaneously.</p>
+            <p>To begin using this tool you need to enter a <a href="https://nano-gpt.com/" target="_blank" rel="noopener">NanoGPT</a> API Key. This key will be stored locally in your web browser, and never sent to our servers. It will only ever be sent directly to the NanoGPT service in order to authorize requests.</p>
+            <p>When choosing models please make sure to double-check your choices, as some models are more expensive than others. Test with cheaper models first to ensure everything is working as it should. As always when working with real world value, be careful.</p>
+            <p><strong>The authors and contributors to this tool shall not be held liable for any use of its functionality, intentional or unintentional, that leads to an undesired lose of funds.</strong></p>
+            <button on:click={_ => {$storeTermsAgree = 'true'}}>I agree ✅</button>
+        </div>
+    </div>
+{/if}
 
 <style>
 
@@ -664,10 +725,45 @@
         font-weight: bold;
     }    
 
+    #overlay {
+        align-items: center;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        height: 100%;
+        flex-direction: row;
+        justify-content: center;
+        left: 0px;
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .modal {
+        background-color: #2e3439;
+        width: 80%;
+        padding: 1.5rem;
+        max-width: 600px;
+        max-height: 600px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: auto;
+    }
+    
+    #modal-terms-agree button {
+        margin-top: 1rem;
+    }
+
     @media only screen and (max-width:500px) {
         #splash-screen input {
             width: 200px;
         }            
+
+        .modal {
+            font-size: 90%;
+        }        
     }
 
 
