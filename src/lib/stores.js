@@ -5,6 +5,7 @@ import { MODEL_TYPE_TEXT } from '$lib/common'
 const LOCALSTORAGE_MODEL_TYPE = 'multiprompt-model-type'
 const LOCALSTORAGE_NUMBER_OF_MODELS = 'multiprompt-number-of-models'
 const LOCALSTORAGE_API_KEY = 'multiprompt-nano-gpt-api-key'
+const LOCALSTORAGE_TERMS_AGREE = 'multiprompt-terms-agree'
 
 // -----
 
@@ -28,6 +29,14 @@ export const storeAPIKey = writable((browser ? window.localStorage.getItem(LOCAL
 
 storeAPIKey.subscribe((value) => {
   if (browser) { window.localStorage.setItem(LOCALSTORAGE_API_KEY, value) }
+})
+
+// -----
+
+export const storeTermsAgree = writable((browser ? window.localStorage.getItem(LOCALSTORAGE_TERMS_AGREE) ?? '' : '')) 
+
+storeTermsAgree.subscribe((value) => {
+  if (browser) { window.localStorage.setItem(LOCALSTORAGE_TERMS_AGREE, value) }
 })
 
 // -----
