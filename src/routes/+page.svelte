@@ -96,7 +96,7 @@
 
             return acc
         }, []).sort(function (x, y) {
-            if (x.cost < y.name) { return -1 }
+            if (x.name < y.name) { return -1 }
             if (x.name > y.name) { return 1 }
             return 0;            
         })
