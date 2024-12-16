@@ -47,6 +47,6 @@
 		"dexie": "4.0.8",
 		"github-slugger": "2.0.0",
 		"markdown-it": "14.1.0",
-		"nanogptjs": "1.0.1"
+		"nanogptjs": "1.0.3"
 	}
 }
