@@ -438,7 +438,7 @@
                             {:else if !(modelReply.reply === DEFAULT_REPLY_TEXT) && modelReply.reply}
                                 <p class="reply">
                                 {#if (modelReply.reply === LOADING)}
-                                    <img id="chatting" src="/chatting.gif" alt="Chatting"/>
+                                    <img id="chatting" src="./chatting.gif" alt="Chatting"/>
                                 {:else}
                                     {#if $storeModelType === MODEL_TYPE_IMAGE}
                                         <Download 
