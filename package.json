@@ -1,33 +1,33 @@
 {
 	"name": "multiprompt",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Send a prompt to multiple LLMs / text models / image models simultaneously",
-  "engines": {
-    "node": ">=18"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kilkelly/multiprompt.git"
-  },
-  "bugs": {
-    "url": "https://github.com/kilkelly/multiprompt/issues"
-  },
-  "keywords": [
-    "nano",
-    "nanocurrency",
-    "ai",
-    "chatgpt",
-    "gpt",
-    "claude",
-    "gemini",
-    "llama",
-    "dall-e",
-    "flux",
-    "stablediffusion",
-    "LLM",
-    "nanogpt"
-  ],
-  "author": "Frank Kilkelly",
+	"engines": {
+		"node": ">=18"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kilkelly/multiprompt.git"
+	},
+	"bugs": {
+		"url": "https://github.com/kilkelly/multiprompt/issues"
+	},
+	"keywords": [
+		"nano",
+		"nanocurrency",
+		"ai",
+		"chatgpt",
+		"gpt",
+		"claude",
+		"gemini",
+		"llama",
+		"dall-e",
+		"flux",
+		"stablediffusion",
+		"LLM",
+		"nanogpt"
+	],
+	"author": "Frank Kilkelly",
 	"scripts": {
 		"dev": "vite dev",
 		"postinstall": "npm run build",
